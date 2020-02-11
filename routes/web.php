@@ -12,5 +12,18 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('index');
+});
+
+/**
+ * 首页
+ */
+Route::any('index', function () {
+    return view('index');
+});
+
+
+// 前台
+Route::group(['middleware' => ['web']],function () {
+    Route::any('getUserList', 'Front\UserController@getUserList'); //获取用户列表
 });
