@@ -31,7 +31,6 @@ function App() {
         <hr/>
         <Route path="/" exact component={Home}></Route>
         <Route path="/about" component={About}></Route>
-        <Route path="/product" component={Product}></Route>
       </div>
     </Router>
   );
