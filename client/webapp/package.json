@@ -1,34 +1,43 @@
 {
-  "name": "webapp",
-  "version": "0.1.0",
+  "name": "client",
+  "version": "1.0.0",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0",
-    "react-scripts": "3.4.0"
-  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "dependencies": {
+    "@tinymce/tinymce-vue": "^2.1.0",
+    "axios": "^0.19.0",
+    "core-js": "^2.6.5",
+    "countup": "^1.8.2",
+    "dayjs": "^1.8.14",
+    "echarts": "^4.2.1",
+    "iview": "^3.4.2",
+    "js-base64": "^2.5.1",
+    "js-cookie": "^2.2.0",
+    "tinymce": "^5.0.11",
+    "vue": "^2.5.2",
+    "vue-i18n": "^8.11.2",
+    "vue-router": "3.0.3",
+    "vuedraggable": "^2.23.0",
+    "vuex": "^3.0.1",
+    "wangeditor": "^3.1.1"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.0.1",
+    "@vue/cli-plugin-eslint": "^3.0.1",
+    "@vue/cli-plugin-unit-mocha": "^3.0.1",
+    "@vue/cli-service": "^3.0.1",
+    "@vue/eslint-config-standard": "^3.0.0-beta.10",
+    "@vue/test-utils": "^1.0.0-beta.10",
+    "chai": "^4.1.2",
+    "copy-webpack-plugin": "^5.0.3",
+    "eslint-plugin-cypress": "^2.0.1",
+    "less": "^2.7.3",
+    "less-loader": "^4.0.5",
+    "lint-staged": "^6.0.0",
+    "mockjs": "^1.0.1-beta3",
+    "vue-template-compiler": "^2.5.13"
   }
 }
