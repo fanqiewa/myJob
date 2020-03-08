@@ -1,36 +1,26 @@
 import React from 'react';
-import { HashRouter as Router, Link, Route } from 'react-router-dom';
-import './App.css';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch
+} from 'react-router-dom';
 
-
-const Home = () => (
-  <div>
-    <h2>Home</h2>
-  </div>
-)
-
-const About = () => (
-  <div>
-    <h2>About</h2>
-  </div>
-)
-
-const Product = () => (
-  <div>
-    <h2>Product</h2>
-  </div>
-)
+import Routers from './router/routerMap';
+import NotFound from './components/notFound/notFound';
 
 function App() {
   return (
     <Router>
       <div className="App">
-        <Link to="/">Home</Link>
-        <Link to="/About">About</Link>
-        <Link to="/Product">Product</Link>
-        <hr/>
-        <Route path="/" exact component={Home}></Route>
-        <Route path="/about" component={About}></Route>
+        <Switch>
+          {
+            Routers.map((item, index) => {
+              return <Route key={index} path={item.path} exact render={(props) => (<item.component {...props} />)} />
+            })
+          } 
+          {/* 所有错误路由跳转页面 */}
+         <Route component={NotFound} />
+        </Switch>
       </div>
     </Router>
   );
