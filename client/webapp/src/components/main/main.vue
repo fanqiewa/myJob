@@ -11,7 +11,7 @@
                 </div>
                 <div class="nav__right">
                     <div class="recruit">我要招聘</div>
-                    <div class="login">注册/登录</div>
+                    <div class="login" @click="goLogin">注册/登录</div>
                 </div>
             </div>
         </div>
@@ -63,6 +63,14 @@ export default {
     },
     methods: {
 
+        /**
+         * 注册/登录        
+         */
+        goLogin() {
+            this.$router.push({
+                name: 'login'
+            })
+        }
     }
 }
 </script>

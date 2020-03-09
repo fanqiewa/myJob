@@ -24,6 +24,10 @@ Route::any('index', function () {
 
 
 // 前台
-Route::group(['middleware' => ['web']],function () {
+Route::group(['middleware' => ['web']], function () {
+
+    // 用户
+    Route::any('/api/Front/login', 'Front\UserController@login'); //用户注册
+    Route::any('/api/Front/register', 'Front\UserController@register'); //用户登录
     Route::any('getUserList', 'Front\UserController@getUserList'); //获取用户列表
 });

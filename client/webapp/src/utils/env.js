@@ -1,2 +1,2 @@
-export const prefixApi = '/api/admin'
+export const prefixApi = '/api/Front'
 export const prefixUrl = '/webapp'

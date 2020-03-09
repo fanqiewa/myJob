@@ -37,5 +37,10 @@ export default [
     children: [
       { path: prefixUrl + '/home', name: 'home', component: () => import('@/view/index/index.vue') }
     ]
+  },
+  {
+    path: prefixUrl + '/login',
+    name: 'login',
+    component: () => import('@/view/login/login.vue')
   }
 ]
