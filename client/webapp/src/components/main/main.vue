@@ -11,7 +11,28 @@
                 </div>
                 <div class="nav__right">
                     <div class="recruit">我要招聘</div>
-                    <div class="login" @click="goLogin">注册/登录</div>
+                    <div class="login" @click="goLogin" v-if="!userAvatar">注册/登录</div>
+                    <div v-else class="userinfo">
+                        <img class="userinfo__avatar" :src="getHeadimgurl" alt="">
+                        
+                        
+                        <Dropdown>
+                            <a href="javascript:void(0)">
+                                <span class="userinfo__name" >{{userName}}</span>
+                            </a>
+                            <DropdownMenu slot="list">
+                                <DropdownItem @click.native="goUserInfo">
+                                    <div>个人信息</div>
+                                    <div class="edit">编辑在线简历</div>
+                                </DropdownItem>
+                                <DropdownItem>
+                                    <div>账号设置</div>
+                                    <div class="edit">修改用户头像、密码、名称</div>
+                                </DropdownItem>
+                                <DropdownItem>退出登录</DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </div>
                 </div>
             </div>
         </div>
@@ -22,6 +43,7 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie'
 export default {
     name:"",
     components: {},
@@ -55,11 +77,21 @@ export default {
                     url: '/'
                 }
             ],
-            selectNav: 1
+            selectNav: 1,
+        }
+    },
+    computed: {
+        userAvatar () {
+            return Cookies.get('headimgurl')
+        },
+        userName () {
+            return Cookies.get('name')
+        },
+        getHeadimgurl () {
+            return this.IMG_BASE_URL + this.userAvatar
         }
     },
     created() {
-
     },
     methods: {
 
@@ -69,6 +101,16 @@ export default {
         goLogin() {
             this.$router.push({
                 name: 'login'
+            })
+        },
+
+        /**
+         * 路由跳转-个人信息 
+         */
+        goUserInfo() {
+            this.selectNav = ''
+            this.$router.push({
+                name: 'userInfo'
             })
         }
     }

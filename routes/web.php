@@ -27,7 +27,8 @@ Route::any('index', function () {
 Route::group(['middleware' => ['web']], function () {
 
     // 用户
-    Route::any('/api/Front/login', 'Front\UserController@login'); //用户注册
-    Route::any('/api/Front/register', 'Front\UserController@register'); //用户登录
-    Route::any('getUserList', 'Front\UserController@getUserList'); //获取用户列表
+    Route::any('/api/Front/login', 'Front\UserController@login'); // 用户注册
+    Route::any('/api/Front/register', 'Front\UserController@register'); // 用户登录
+    Route::any('/api/Front/uploadImage', 'Front\CommonController@uploadImage'); // 图片上传接口
+    Route::any('getUserList', 'Front\UserController@getUserList'); // 获取用户列表
 });

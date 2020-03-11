@@ -7,7 +7,7 @@
 }
 
 .nav__container {
-    width: 900px;
+    width: 1200px;
     height: 50px;
     margin: 0 auto;
 }
@@ -102,4 +102,31 @@
     text-decoration: underline;
     cursor: pointer;
     color: #478cc6;
+}
+
+.userinfo {
+    display: flex;
+    align-items: center;
+}
+
+.userinfo__avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.userinfo__name {
+    margin-left: 10px;
+    color: #478cc6;
+    cursor: pointer;
+}
+
+.userinfo__name:hover {
+    text-decoration: underline;
+}
+
+.edit {
+    color: #bdc1cb;
+    font-size: 12px;
+    margin-top: 5px;
 }

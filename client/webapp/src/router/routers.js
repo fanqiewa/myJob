@@ -1,6 +1,5 @@
 
 import Main from '@/components/main/main.vue'
-import Home from '@/view/index/index.vue'
 import { prefixUrl, prefixApi } from "@/utils/env";
 // import parentView from '@/components/parent-view'
 
@@ -23,24 +22,32 @@ import { prefixUrl, prefixApi } from "@/utils/env";
 export default [
   {
     path: '/',
-    name: '_home',
+    name: '_homeManage',
     redirect: prefixUrl + '/home',
     component: Main,
     children: [
-      { path: prefixUrl + '/home', name: 'home', component: () => import('@/view/index/index.vue') }
+      { path: prefixUrl + '/home', name: '_home', component: () => import('@/view/index/index.vue') }
     ]
   },
   {
     path: prefixUrl + '/home',
-    name: 'home',
+    name: 'homeManage',
     component: Main,
     children: [
       { path: prefixUrl + '/home', name: 'home', component: () => import('@/view/index/index.vue') }
     ]
   },
   {
+    path: prefixUrl + '/userInfo',
+    name: 'userManage',
+    component: Main,
+    children: [
+      { path: prefixUrl + '/userInfo', name: 'userInfo', component: () => import('@/view/userInfo/userInfo.vue') }
+    ]
+  },
+  {
     path: prefixUrl + '/login',
-    name: 'login',
+    name: 'loginManage',
     component: () => import('@/view/login/login.vue')
   }
 ]

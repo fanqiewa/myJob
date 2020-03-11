@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use Request;
+use Util;
 use App\Models\User\User;
 
 class UserController extends Controller
@@ -13,28 +14,40 @@ class UserController extends Controller
      * @return [type] [description]
      */
     public function login () {
-        $account = Request::input('account');
-        $password = Request::input('password');
+        $account = trim(Request::input('account'));
+        $password = trim(Request::input('password'));
+
         if (empty($account) || empty($password)) {
             return ajax_result(500, '传参有误！');
         }
-        $result = User::where([
+        
+        $user = User::where([
             ['account', $account],
             ['password', $password]
-        ])->get();
-        if ($result->isEmpty()) {
+        ])->first();
+
+
+        if (empty($user)) {
             return ajax_result(500, '用户不存在！');
         }
-        return ajax_result(200, 'ok', $result);
+        
+        $token = Util::genToken();
+        $user->webtoken = $token;
+        $user->save();
+        
+        $data = array(
+            'user' => $user
+        );
+        return ajax_result(200, 'ok', $data);
     }
 
     /**
-     * [用户登录]
+     * [用户注册]
      * @return [type] [description]
      */
     public function register () {
-        $account = Request::input('account');
-        $password = Request::input('password');
+        $account = trim(Request::input('account'));
+        $password = trim(Request::input('password'));
         if (empty($account) || empty($password)) {
             return ajax_result(500, '传参有误！');
         }
@@ -46,6 +59,9 @@ class UserController extends Controller
             'account' => $account,
             'password' => $password,
         ));
+        $token = Util::genToken();
+        $user->webtoken = $token;
+        $user->save();
         unset($user->id);
         return ajax_result(200, 'ok', $user);
     }

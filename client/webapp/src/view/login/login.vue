@@ -36,20 +36,31 @@
                 </div>
             </div>
         </div>
-
-        <!-- <input type="file" name="filedata" accept="image/jpeg,image/jpg,image/png" id='imageInput' @change="loadImagesFile($event)" ref="avatarInput"/>
-        <img :src="avatar" class="img-avatar" v-if="avatar"> -->
+        <!-- <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="120">
+            <FormItem label="门店主图：" prop="headimgurl">
+                <image-upload :maxNum="1" v-model="formValidate.headimgurl"></image-upload>
+                <Alert style="width: 500px">PS：建议上传730 X 300 尺寸的图片</Alert>
+            </FormItem>
+        </Form> -->
     </div>
 </template>
 
 <script>
+import Cookies from 'js-cookie'
+import imageUpload from '@/components/image-upload/image-upload.vue'
 import { prefixApi } from "@/utils/env"
 export default {
     name:"",
-    components: {},
+    components: { imageUpload },
     props: {},
     data() {
         return {
+            formValidate: {
+                headimgurl: []
+            },
+            ruleValidate: {
+                headimgurl: [{ required: true, type: 'array', min: 1, message: '请选择头像', trigger: 'change' }],
+            },
             isSubmit: true, // 防止多次提交
             isRegister: true,
             avatar: '',
@@ -119,8 +130,14 @@ export default {
                 return
             }
             self.isSubmit = false
+            self.$Loading.start()
             self.$axios.post(prefixApi + "/login", {account: self.account, password: self.password}).then(({data}) => {
                 if (data.code == 200) {
+                    self.$Loading.finish()
+                    Cookies.set('name', data.obj.user.name)
+                    Cookies.set('account', data.obj.user.account)
+                    Cookies.set('headimgurl', data.obj.user.headimgurl)
+                    Cookies.set('webtoken', data.obj.user.webtoken)
                     self.$Notice.success({
                         title: "提示",
                         desc: "登录成功， 2秒后自动跳转至首页",

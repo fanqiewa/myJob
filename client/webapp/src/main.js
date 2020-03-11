@@ -17,6 +17,9 @@ Vue.prototype.$axios = axios.request()
 Vue.prototype.Base64 = Base64.Base64
 Vue.config.productionTip = false
 
+const IMG_BASE_URL = process.env.NODE_ENV === 'production' ? '' : 'http://127.0.0.1:8000'
+
+Vue.prototype.IMG_BASE_URL = IMG_BASE_URL
 /**
  * @description 全局注册应用配置
  */
