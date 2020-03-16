@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Request;
 use Util;
 use App\Models\User\User;
+use App\Models\User\JobHunter;
 
 class UserController extends Controller
 {
@@ -74,6 +75,48 @@ class UserController extends Controller
         $result = User::get()->toArray();
         $data = array(
             'list' =>$result,
+            );
+        return ajax_result(200,'ok',$data);
+    }
+
+    /**
+     * [获取求职值信息]
+     * @return [type] [description]
+     */
+    public function getJobHunterInfo () {
+        $account = Request::input('account');
+        if (empty($account)) {
+            return ajax_result(500,'参数有误');
+        }
+        $user_id = User::where('account', $account)->value('id');
+
+        $result = JobHunter::where('user_id', $user_id)->first();
+
+        $data = array(
+            'result' =>$result,
+            );
+        return ajax_result(200,'ok',$data);
+    }
+
+    /**
+     * [更新求职值信息]
+     * @return [type] [description]
+     */
+    public function updateJobHunterInfo () {
+        $account = Request::input('account');
+        if (empty($account)) {
+            return ajax_result(500,'参数有误');
+        }
+        $user_id = User::where('account', $account)->value('id');
+
+        $user_json = Request::input('user_json');
+        $user_json['user_id'] = $user_id;
+        $result = JobHunter::updateOrCreate(
+            ['user_id' => $user_id],
+            $user_json
+        );
+        $data = array(
+            'result' =>$result,
             );
         return ajax_result(200,'ok',$data);
     }

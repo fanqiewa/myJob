@@ -47,7 +47,7 @@ export default [
   },
   {
     path: prefixUrl + '/login',
-    name: 'loginManage',
+    name: 'login',
     component: () => import('@/view/login/login.vue')
   }
 ]

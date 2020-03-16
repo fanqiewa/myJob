@@ -303,8 +303,8 @@ export default {
     top: 50%;
     left: 40px;
     transform: translateY(-50%);
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
 }
 
 .btn {
