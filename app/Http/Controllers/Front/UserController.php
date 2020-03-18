@@ -7,6 +7,9 @@ use Request;
 use Util;
 use App\Models\User\User;
 use App\Models\User\JobHunter;
+use App\Models\User\Salary;
+use App\Models\User\Experience;
+use App\Models\User\JobHunterPosition;
 
 class UserController extends Controller
 {
@@ -76,7 +79,7 @@ class UserController extends Controller
         $data = array(
             'list' =>$result,
             );
-        return ajax_result(200,'ok',$data);
+        return ajax_result(200, 'ok', $data);
     }
 
     /**
@@ -90,12 +93,12 @@ class UserController extends Controller
         }
         $user_id = User::where('account', $account)->value('id');
 
-        $result = JobHunter::where('user_id', $user_id)->first();
+        $result = JobHunter::with('experience', 'position')->where('user_id', $user_id)->first();
 
         $data = array(
             'result' =>$result,
             );
-        return ajax_result(200,'ok',$data);
+        return ajax_result(200, 'ok', $data);
     }
 
     /**
@@ -118,6 +121,85 @@ class UserController extends Controller
         $data = array(
             'result' =>$result,
             );
-        return ajax_result(200,'ok',$data);
+        return ajax_result(200, 'ok', $data);
+    }
+
+    /**
+     * [获取薪资列表]
+     * @return [type] [description]
+     */
+    public function getSalaryList () {
+        $result = Salary::get();
+
+        $data = array(
+            'list' =>$result,
+            );
+        return ajax_result(200, 'ok', $data);
+    }
+
+    
+    /**
+     * [更新工作经历]
+     * @return [type] [description]
+     */
+    public function updateWork () {
+        $jobhunter_id = Request::input('jobhunter_id');
+        $experience_id = Request::input('experience_id');
+        $experience_json = Request::input('experience_json');
+        
+        $result = Experience::updateOrCreate(
+            ['jobhunter_id' => $jobhunter_id, 'id' => $experience_id],
+            $experience_json
+        );
+        $data = array(
+            'result' =>$result,
+            );
+        return ajax_result(200, 'ok', $data);
+    }
+
+    /**
+     * [删除工作经历]
+     * @return [type] [description]
+     */
+    public function deleteWork () {
+        $experience_id = Request::input('experience_id');
+        
+        $result = Experience::where('id', $experience_id)->delete();
+
+        return ajax_result(200, 'ok', $result);
+    }
+
+    
+    /**
+     * [更新职位经历信息]
+     * @return [type] [description]
+     */
+    public function updatePosition () {
+        $jobhunter_id = Request::input('jobhunter_id');
+        $jobhunter_position_id = Request::input('jobhunter_position_id');
+        $position_json = Request::input('position_json');
+        $position_json['position_id'] = json_encode($position_json['position_id'] ?? []);
+        $position_json['city_id'] = json_encode($position_json['city_id'] ?? []);
+        
+        $result = JobHunterPosition::updateOrCreate(
+            ['jobhunter_id' => $jobhunter_id, 'id' => $jobhunter_position_id],
+            $position_json
+        );
+        $data = array(
+            'result' =>$result,
+            );
+        return ajax_result(200, 'ok', $data);
+    }
+
+    /**
+     * [删除工作经历]
+     * @return [type] [description]
+     */
+    public function deletePosition () {
+        $jobhunter_position_id = Request::input('jobhunter_position_id');
+        
+        $result = JobHunterPosition::where('id', $jobhunter_position_id)->delete();
+
+        return ajax_result(200, 'ok', $result);
     }
 }

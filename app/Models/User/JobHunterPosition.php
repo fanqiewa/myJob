@@ -5,7 +5,7 @@ namespace App\Models\User;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class JobHunter extends BaseModel
+class JobHunterPosition extends BaseModel
 {
     /**
      * 软删除，数据库中必须要有deleted_at字段
@@ -17,7 +17,7 @@ class JobHunter extends BaseModel
      *
      * @var string
      */
-    protected $table = 'jobhunter';
+    protected $table = 'jobhunter_position';
     
     /**
      * 指定是否模型应该被戳记时间。
@@ -31,7 +31,7 @@ class JobHunter extends BaseModel
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'name', 'job_experience', 'job_education', 'status', 'phone', 'email', 'wx_code', 'sex', 'birthday', 'advantage', 'job_status', 'pdf', 'pdf_name', 'pdf_update'];
+    protected $fillable = ['jobhunter_id', 'position_id', 'salary_id', 'city_id'];
 
     /**
      * 模型日期列的存储格式。
@@ -40,17 +40,11 @@ class JobHunter extends BaseModel
      */
     protected $dateFormat = 'U';
     
-    public function experience()
+    public function getPositionIdAttribute($value)
     {
-        return $this->hasMany('App\Models\User\Experience', 'jobhunter_id', 'id');
+        return json_decode($value, true);
     }
-
-    public function position()
-    {
-        return $this->hasMany('App\Models\User\JobHunterPosition', 'jobhunter_id', 'id');
-    }
-
-    public function getExpectPositionAttribute($value)
+    public function getCityIdAttribute($value)
     {
         return json_decode($value, true);
     }

@@ -8,6 +8,8 @@ use Request;
 use App\Models\User\User;
 use App\Models\User\JobHunter;
 
+use Illuminate\Support\Facades\Storage;
+
 class CommonController extends Controller
 {
     /**
@@ -36,7 +38,7 @@ class CommonController extends Controller
                 $filePath = asset($destinationPath.$fileName);
                 $data = array(
                     'filename' => $fileName,
-                    'filepath' => '/'.$destinationPath.$fileName,
+                    'filepath' => $destinationPath.$fileName,
                     'realpath' => $filePath
                 );
                 $pdf_name = Request::input('pdf_name');
@@ -44,7 +46,7 @@ class CommonController extends Controller
                 $user_id = User::where('account', $account)->value('id');
                 JobHunter::updateOrCreate(
                     ['user_id' => $user_id],
-                    ['user_id' => $user_id, 'pdf_name' => $pdf_name, 'pdf_update' => $pdf_update, 'pdf' => '/'.$destinationPath.$fileName]
+                    ['user_id' => $user_id, 'pdf_name' => $pdf_name, 'pdf_update' => $pdf_update, 'pdf' => $destinationPath.$fileName]
                 );
                 
                 return ajax_result(200, '上传成功', $data);
@@ -60,13 +62,42 @@ class CommonController extends Controller
      */
     public function down () {
 
- 
-        $file= "uploads/pdf/4b955388db67d1336e33dcc1e89d2aa6.pdf";
+        $filepath = Request::input('filepath');
+        $filename = Request::input('filepafilenameth');
+
         $headers = array(
             'Content-Type: application/pdf',
         );
 
-        return Response::download($file, 'filename.pdf', $headers);
+        return Response::download($filepath, $filename, $headers);
+    }
+
+    /**
+     * [文件删除]
+     * @return [type] [description]
+     */
+    public function delete () {
+
+        $filepath = Request::input('filepath');
+        $path = public_path($filepath);
+        if (!file_exists($path)) {
+            return ajax_result(500,'文件不存在');
+        } 
+        unlink($path);
+        
+        $account = Request::input('account');
+        if (empty($account)) {
+            return ajax_result(500,'参数有误');
+        }
+        $user_id = User::where('account', $account)->value('id');
+        JobHunter::where('user_id', $user_id)->update([
+            'pdf_name' => '',
+            'pdf_update' => time(),
+            'pdf' => ''
+        ]);
+
+        return ajax_result(200, '删除成功');
+
     }
 
     
