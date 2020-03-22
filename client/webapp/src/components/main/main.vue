@@ -6,7 +6,7 @@
                     <img class="logo" src="../../assets/images/index/logo.png" alt="">
                     <div class="nav__city">南宁</div>
                     <div class="nav__route">
-                        <div :class="{'home': true, 'active': selectNav == item.id}" v-for="item in navList" :key="item.id">{{item.name}}</div>
+                        <div :class="{'home': true, 'active': selectNav == item.id}" v-for="(item, index) in navList" :key="item.id" @click="changeRouter(index)">{{item.name}}</div>
                     </div>
                 </div>
                 <div class="nav__right">
@@ -54,27 +54,27 @@ export default {
                 {
                     id: 1,
                     name: '首页',
-                    url: '/'
+                    url: 'home'
                 },
                 {
                     id: 2,
                     name: '全职招聘',
-                    url: '/'
+                    url: 'home'
                 },
                 {
                     id: 3,
                     name: '兼职招聘',
-                    url: '/'
+                    url: 'home'
                 },
                 {
                     id: 4,
                     name: '企业服务',
-                    url: '/'
+                    url: 'home'
                 },
                 {
                     id: 5,
                     name: '关于我们',
-                    url: '/'
+                    url: 'home'
                 }
             ],
             selectNav: 1,
@@ -112,6 +112,17 @@ export default {
             this.$router.push({
                 name: 'userInfo'
             })
+        },
+
+        /**
+         * 路由跳转
+         */
+        changeRouter(index) {
+            const navList = this.navList
+            this.selectNav = navList[index].id
+            this.$router.push({
+                name: navList[index].url
+            })
         }
     }
 }
@@ -119,7 +130,7 @@ export default {
 
 <style scoped>
 .nav {
-    height: 50px;
+    height: 60px;
     width: 100%;
     background: #2e3849;
     border-bottom: 2px solid #478cc6;
@@ -127,8 +138,8 @@ export default {
 }
 
 .nav__container {
-    width: 1100px;
-    height: 50px;
+    width: 1200px;
+    height: 60px;
     margin: 0 auto;
     background: #2e3849;
     border-bottom: 2px solid #478cc6;

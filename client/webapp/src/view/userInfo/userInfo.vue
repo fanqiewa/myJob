@@ -855,7 +855,7 @@ export default {
 .container {
     display: flex;
     align-items: flex-start;
-    width: 1100px;
+    width: 1200px;
     margin: 20px auto;
 }
 .main {

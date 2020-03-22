@@ -1,131 +1,108 @@
 <template>
     <div>
-        首页
+        <div class="container">
+            <div class="search">
+                <div class="search__type">
+                    <span class="type">职位类型类类类</span>
+                    <div class="type-icon">
+                        <Icon type="ios-arrow-down" />
+                    </div>
+                </div>
+                <input class="search__input" type="text" name="" id="">
+            </div>
+           <div class="search-btn">搜索</div>
+        </div>
     </div>
 </template>
 
 <script>
+import util from '@/libs/util'
+import Cookies from 'js-cookie'
+import { prefixApi } from "@/utils/env"
 export default {
     name:"",
     components: {},
     props: {},
     data() {
         return {
+            positionAllList: [],
         }
     },
     created() {
-
+        this.getAllPositionList()
     },
     methods: {
+
+        /** -------------------------------获取数据------------------------------------- */
+
+        /**
+         * 获取职位列表
+         */
+        getAllPositionList() {
+            const self = this
+            self.$axios.post(prefixApi + '/getAllPositionList').then(({data}) => {
+                if (data.code == 200) {
+                    self.positionAllList = data.obj.list
+                } 
+            })
+        },
 
     }
 }
 </script>
 
 <style scoped>
-.nav {
-    height: 50px;
-    width: 100%;
-    background: #2e3849;
-    border-bottom: 2px solid #478cc6;
-    font-size: 14px;
-}
-
-.nav__container {
-    width: 1100px;
-    height: 50px;
-    margin: 0 auto;
-}
-
-.nav__container {
+.container {
+    width: 900px;
+    margin: 30px auto;
     display: flex;
     justify-content: space-between;
-    color: #fff;
     align-items: center;
 }
-
-.logo {
-    width: 30px;
-}
-
-.nav__city {
-    margin: 0 20px;
-    color: #07ada2;
-}
-
-.nav__left {
+.search {
     display: flex;
     align-items: center;
-}
-
-.nav__route {
-    display: flex;
-}
-
-.nav__route > div {
-    position: relative;
-    padding: 0 20px;
-    cursor: pointer;
+    box-shadow: 0 0 6px 0 rgba(0,0,0,.13);
+    border: 1px solid #ddd;
+    background: #fff;
     box-sizing: border-box;
 }
-
-.nav__route > div:not(:first-child)::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
-    width: 2px;
-    height: 10px;
-    background: #fff;
+.search:hover {
+    border: 1px solid #478cc6;
 }
-
-.active {
-    color: #478cc6;
-    font-weight: 600;
-}
-
-.nav__right {
+.search__type {
     display: flex;
     align-items: center;
-}
-
-.recruit {
-    position: relative;
-    margin: 0 20px;
-    border: 1px solid #07ada2;
-    padding: 2px 4px;
+    box-sizing: border-box;
+    padding: 0 20px;
+    font-size: 16px;
+    color: #61687c;
     cursor: pointer;
-    border-radius: 2px;
+}
+.type {
+    width: 100px;
+    white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
 }
-
-.recruit:hover:before {
-    animation: recruit .2s linear forwards;
+.type-icon {
+    width: 20px;
 }
-
-.recruit::before {
-    content: "我要招聘";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: #07ada2;
-    border: 1px solid #07ada2;
+.search__input {
+    font-size: 16px;
+    border: 0;
+    color: #414a60;
+    outline: none;
+    width: 600px;
+    padding: 20px;
+}
+.search-btn {
+    background: #478cc6;   
+    color: #fff;
+    padding: 20px;
+    font-size: 16px;
+    width: 140px;
     text-align: center;
-    line-height: 20px;
-}
-@keyframes recruit
-{
-    to {
-        left: 0;
-    }
-}
-
-.login:hover {
-    text-decoration: underline;
     cursor: pointer;
-    color: #478cc6;
 }
 </style>
